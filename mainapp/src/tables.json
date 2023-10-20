@@ -1,0 +1,208 @@
+{
+    "tblNames": {
+        "schools": "[פרטי בתי ספר]",
+        "contacts": "[אנשי קשר בתי ספר]",
+        "messages": "[תבניות]",
+        "plans": "[שיבוצים]",
+        "instructors": "[מדריכים]",
+        "instructorPlacements": "[מדריכים לשיבוצים]",
+        "invitations": "[תוכניות שהוזמנו]",
+        "colors": "[צבעים]",
+        "instructorPlanColors": "[צבעי מדריכים שיבוצים]",
+        "planButtons": "[כפתורי שיבוצים]",
+        "payments": "[תשלומים]"
+    },
+    "tblCols": {
+        "schools": {
+            "id": "school_id",
+            "schoolDate": "תאריך",
+            "name": "[בתי ספר]",
+            "level": "[שלב חינוך]",
+            "sector": "מגזר",
+            "schoolType": "סוג",
+            "city": "עיר",
+            "representative": "[יסודי-חטב]",
+            "status": "[סטט-יח]",
+            "sym": "[סמל]"
+        },
+        "contacts": {
+            "id": "contact_id",
+            "schoolId": "school_id",
+            "schoolName": "[בית ספר]",
+            "firstName": "פרטי",
+            "lastName": "משפחה",
+            "role": "תפקיד",
+            "phone": "נייד",
+            "status": "[סטטוס]",
+            "googleContactsResourceName": "[google_contacts_resource_name]"
+        },
+        "messages": {
+            "id": "[מזהה]",
+            "msg1": "[הודעה1]",
+            "msg2": "[הודעה2]",
+            "msg3": "[הודעה3]",
+            "title": "[כותרת]"
+        },
+        "instructors": {
+            "id": "guide_id",
+            "firstName": "[פרטי]",
+            "lastName": "[משפחה]",
+            "cv": "[קוח]",
+            "city": "[יישוב]",
+            "area": "[אזור]",
+            "sector": "[מגזר]",
+            "pricing": "[תמחור]",
+            "status": "[סטטוס]",
+            "notes": "[הערות]",
+            "certificates": "[תעודות]",
+            "policeApproval": "[אישור משטרה]",
+            "insurance": "[ביטוח]",
+            "agreement": "[הסכם]"
+        },
+        "plans": {
+            "id": "[מזהה]",
+            "year": "[שנה]",
+            "proposal": "[הצעה]",
+            "status": "[סטטוס]",
+            "invitation": "[הזמנה]",
+            "level": "[שלב]",
+            "sym": "[סמל]",
+			"schoolId": "[מזהה_בית_ספר]",
+            "institution": "[מוסד]",
+            "contact": "[איש קשר]",
+            "date": "[תאריך]",
+            "district": "[מחוז]",
+            "city": "[יישוב]",
+            "plan": "[תוכנית]",
+            "days": "[ימים]",
+            "day": "[יום נבחר]",
+            "weeks": "[שבועות]",
+            "grade": "[שכבה]",
+            "details": "[פרטים]",
+            "msg": "[נוסח]",
+            "lessonsPerDay": "[שיעורים ביום]",
+            "lessons": "[סהכ שיעורים]",
+            "pricePerHour": "[עלות שעה]",
+            "overall": "[סהכ]",
+            "instructor1": "[מדריך1]",
+            "instructor2": "[מדריך2]",
+            "instructor3": "[מדריך3]",
+            "instructor4": "[מדריך4]"
+        },
+        "instructorPlacements": {
+            "planId": "[madrich_id]",
+            "instructorId": "[guide_id]"
+        },
+        "invitations": {
+            "id": "invitation_id",
+            "sym": "[סמל]",
+            "schoolName": "[שם ביה\"ס]",
+            "city": "[עיר]",
+            "planName": "[שם תוכנית]",
+            "contact": "[איש קשר]",
+            "amount": "[כמות שיעורים]",
+            "lessonPrice": "[עלות שיעור]",
+            "overallPricing": "[תמחור כולל]",
+            "residue": "[סכום שנותר]",
+            "notes": "[הערות]",
+            "issueDate": "[תאריך הנפקה]",
+            "issuer": "[מנפיק]",
+            "issueSum": "[סכום הנפקה]",
+            "checkDate": "[תאריך צק]",
+            "payed": "[שולם]",
+            "instructor": "[מדריך/ה]",
+            "expectedExpenses": "[הוצאות צפויות]",
+            "afterExpenses": "[לאחר הוצאות כולל מעמ]"
+        },
+        "colors": {
+            "id": "[מזהה]",
+            "hex": "[צבע]",
+            "desc": "[הסבר]",
+            "forPlaced": "[עבור מועמד]",
+            "default": "[ברירת מחדל]"
+        },
+        "instructorPlanColors": {
+            "instructorId": "[מזהה מדריך]",
+            "planId": "[מזהה שיבוץ]",
+            "colorId": "[מזהה צבע]"
+        },
+        "planButtons": {
+            "planId": "[מזהה שיבוץ]",
+            "button": "[כפתור]"
+        },
+        "payments": {
+            "id": "payment_id",
+            "issuer": "[מנפיק]",
+            "schoolName": "[שם ביה\"ס]",
+            "city": "[עיר]",
+            "plan": "[תוכנית]",
+            "payed": "[סכום ששולם]",
+            "sym": "[סמל]"
+        }
+    },
+    "uniques": {
+        "schools": {
+            "cities": "city",
+            "sectors": "sector",
+            "schoolTypes": "schoolType",
+            "schoolStatuses": "status",
+            "levels": "level"
+        },
+        "contacts": {
+            "contactStatuses": "status",
+            "roles": "role"
+        },
+        "plans": {
+            "planYears": "year",
+            "planStatuses": "status",
+            "planInvitations": "invitation",
+            "planDistricts": "district",
+            "planPlans": "plan"
+        }
+    },
+    "condensedTrueFalse": {
+        "instructors": {
+            "instructorTypes": [
+                "אמנות",
+                "תיאטרון",
+                "שחמט",
+                "לחימה",
+                "סטיילינג",
+                "מותאמת",
+                "קיימות",
+                "ניו מדיה",
+                "הייטק",
+                "יוגה",
+                "כתיבה",
+                "פיננסי",
+                "ספורט",
+                "קוסמות",
+                "כלב",
+                "רפואה",
+                "מדע",
+                "מנהיגות",
+                "מחול",
+                "תקשורת",
+                "למידה",
+                "פסיכומטרי",
+                "חשיבה",
+                "להטוטנות",
+                "חינוך מיני",
+                "טיפול",
+                "מוסיקה",
+                "ליווי",
+                "קולנוע",
+                "נגרות",
+                "בישול",
+                "יזמות",
+                "אנגלית",
+                "מתמטיקה",
+                "קאוצינג",
+                "טלמרקטינג",
+                "ייעוץ הוליסטי",
+                "יהדות",
+                "טיסה"
+            ]
+        }
+    }
+}

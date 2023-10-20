@@ -1,0 +1,38 @@
+{
+    "chatlist-header": {
+        "base": "//header[{0}]",
+        "classes": ["g0rxnol2 ercejckq cm280p3y p357zi0d gndfcl4n kcgo1i74 ln8gz9je e8h85j61 emrlamx0 aiput80m lyvj5e2u l9g3jx6n f6ipylw5"]
+    },
+    "messages-controls-footer": {
+        "base": "//footer[{0}]",
+        "classes": ["_3E8Fg"]
+    },
+    "message-input": {
+        "base": "//div[{0}]/div[{1}]/div[{2} and @role='textbox']",
+        "classes": ["_3Uu1_", "g0rxnol2 ln8gz9je lexical-rich-text-input", "to2l77zo gfz4du6o ag5g9lrv bze30y65 kao4egtt"]
+    },
+    "send-button": {
+        "base": "//button[{0}]",
+        "classes": ["tvf2evcx oq44ahr5 lb5m6g5c svlsagor p2rjqpw5 epia9gcq"]
+    },
+    "attach-button": {
+        "base": "//div[{0}]/div[{1}]/div[{2} and @role='button']",
+        "classes": ["_1OT67", "_3OtEr", "_3ndVb fbgy3m38 ft2m32mm oq31bsqd nu34rnf1"]
+    },
+    "document-input": {
+        "base": "//div[{0}]/input[@accept='*' and @type='file']",
+        "classes": ["tvf2evcx m0h2a7mj lb5m6g5c j7l1k36l ktfrpxia nu7pwgvd p357zi0d dnb887gk gjuq5ydh i2cterl7 fhf7t426 sap93d0t gndfcl4n ajgl1lbb lniyxyh2 fooq7fky bcfko8ch"]
+    },
+    "image-input": {
+        "base": "//div[{0}]/input[@accept='image/*,video/mp4,video/3gpp,video/quicktime' and @type='file']",
+        "classes": ["tvf2evcx m0h2a7mj lb5m6g5c j7l1k36l ktfrpxia nu7pwgvd p357zi0d dnb887gk gjuq5ydh i2cterl7 fhf7t426 sap93d0t gndfcl4n ajgl1lbb lniyxyh2 fooq7fky bcfko8ch"]
+    },
+    "send-file-button": {
+        "base": "//div[{0} and @role='button']",
+        "classes": ["p357zi0d gndfcl4n ac2vgrno mh8l8k0y k45dudtp i5tg98hk f9ovudaz przvwfww gx1rr48f f8jlpxt4 hnx8ox4h k17s6i4e ofejerhi os0tgls2 g9p5wyxn i0tg5vk9 aoogvgrq o2zu3hjb hftcxtij rtx6r8la e3b81npk oa9ii99z p1ii4mzz"]
+    },
+    "last-msg-meta": {
+        "base": "(//div[{0}]/span[@data-icon])[last()]",
+        "classes": ["do8e0lj9 l7jjieqr k6y3xtnu"]
+    }
+}

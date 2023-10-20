@@ -1,0 +1,8 @@
+# dependencies
+/.venv
+
+# cache
+__pycache__/
+
+# tokens
+/mainapp/tokens
