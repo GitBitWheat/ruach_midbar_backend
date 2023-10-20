@@ -81,13 +81,11 @@ class WhatsappSender:
         try:
             WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, xpaths['chatlist-header'])))
         except TimeoutException:
-            print(2)
             return MessageStatuses.COULD_NOT_LOAD_PAGE
 
         try:
             WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, xpaths['messages-controls-footer'])))
         except TimeoutException:
-            print(3)
             return MessageStatuses.WRONG_PHONE
 
         msg_statuses = []
@@ -231,7 +229,6 @@ def send_messages(messages, phones, names, school_ids, contact_ids, is_rep_lst, 
     try:
         WebDriverWait(driver, 300).until(EC.presence_of_element_located((By.XPATH, xpaths['chatlist-header'])))
     except TimeoutException:
-        print(1)
         return [MessageStatuses.COULD_NOT_SEND] * len(phones)
 
     time.sleep(1.5)

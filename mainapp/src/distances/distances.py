@@ -32,7 +32,6 @@ resource_id = 'bc5293d3-1023-4d9e-bdbe-082b58f93b65'
 def get_distances(origin, destinations):
     codes = [city_2_code[dest] for dest in destinations]
     codes.append(city_2_code[origin])
-    print(city_2_code[origin])
     codes = [code for code in codes if code != -1]
 
     filters = {
