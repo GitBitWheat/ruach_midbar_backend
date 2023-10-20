@@ -23,7 +23,7 @@ except PermissionError:
 except IOError:
     print('Error reading file.')
 
-# Israel goverment datastore CKAN API URL
+# Goverment of Israel datastore CKAN API URL
 api_url = 'https://data.gov.il/api/3/action/datastore_search'
 
 # Distances Resource ID
