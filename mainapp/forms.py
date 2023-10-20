@@ -10,6 +10,6 @@ class DriveUploadForm(forms.Form):
 class ProposalUploadForm(forms.Form):
     proposalFile = forms.FileField(required=False)
     year = forms.TextInput()
-    area = forms.TextInput()
+    district = forms.TextInput()
     city = forms.TextInput()
     school = forms.TextInput()

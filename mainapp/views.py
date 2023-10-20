@@ -986,7 +986,8 @@ def update_people_creds(request):
         return HttpResponse(status=405)
     
     try:
-        os.remove(people.CREDS_PATH)
+        if os.path.isfile(people.CREDS_PATH):
+            os.remove(people.CREDS_PATH)
         people.get_creds()
         return HttpResponse(status=200)
     except Exception as err:
@@ -1000,7 +1001,8 @@ def update_instructors_creds(request):
         return HttpResponse(status=405)
     
     try:
-        os.remove(instructors_service.CREDS_PATH)
+        if os.path.isfile(instructors_service.CREDS_PATH):
+            os.remove(instructors_service.CREDS_PATH)
         instructors_service.get_creds()
         return HttpResponse(status=200)
     except Exception as err:
@@ -1014,7 +1016,8 @@ def update_proposal_creds(request):
         return HttpResponse(status=405)
     
     try:
-        os.remove(proposal_service.CREDS_PATH)
+        if os.path.isfile(proposal_service.CREDS_PATH):
+            os.remove(proposal_service.CREDS_PATH)
         proposal_service.get_creds()
         return HttpResponse(status=200)
     except Exception as err:

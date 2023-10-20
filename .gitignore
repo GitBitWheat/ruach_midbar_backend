@@ -6,3 +6,7 @@ __pycache__/
 
 # tokens
 /mainapp/tokens
+
+# db
+*.accdb
+*.laccdb
