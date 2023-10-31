@@ -10,3 +10,9 @@ __pycache__/
 # db
 *.accdb
 *.laccdb
+
+# Package requirements. Remove from gitignore in production version.
+requirements.txt
+
+# file zips
+server.zip
