@@ -4,7 +4,6 @@ from math import trunc
 import json
 import csv
 
-distances_dict = defaultdict(lambda: defaultdict(lambda: -1))
 city_2_code = defaultdict(lambda: -1)
 code_2_city = defaultdict(lambda: -1)
 
