@@ -550,7 +550,7 @@ def city_distances(request):
     except json.JSONDecodeError:
         return HttpResponseBadRequest('Invalid JSON')
 
-    return JsonResponse({ 'dists': distances.get_distances(data['origin'], data['destinations']) })
+    return JsonResponse({ 'dists': distances.get_distances(data['origin']) })
 
 
 

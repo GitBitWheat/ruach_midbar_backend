@@ -28,25 +28,21 @@ api_url = 'https://data.gov.il/api/3/action/datastore_search'
 # Distances Resource ID
 resource_id = 'bc5293d3-1023-4d9e-bdbe-082b58f93b65'
 
-def get_distances(origin, destinations):
-    codes = [city_2_code[dest] for dest in destinations]
-    codes.append(city_2_code[origin])
-    codes = [code for code in codes if code != -1]
-
+def get_distances(origin):
     filters = {
-        'קוד מוצא': codes,
-        'קוד יעד': codes,
+        'קוד מוצא': city_2_code[origin],
     }
     
     # Make the API request
+    # 3000 is a number larger than the amount of known places, meaning there is no limit
     try:
         response = requests.get(api_url, params={
             'id': resource_id,
             'fields': ['קוד מוצא,קוד יעד,מרחק ממרכז למרכז'],
             'filters': json.dumps(filters),
+            'limit': 3000
         })
-        data = response.json()
-        records = data['result']['records']
+        records = response.json()['result']['records']
         get_dest = lambda record: \
             code_2_city[record['קוד מוצא']] \
             if record['קוד מוצא'] != city_2_code[origin] \
