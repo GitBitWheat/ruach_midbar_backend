@@ -10,11 +10,11 @@ try:
     with open('mainapp/src/tables.json', 'r', encoding='utf-8') as f_tables:
         tables = json.load(f_tables)
 except FileNotFoundError:
-    print('File not found.')
+    print('File table.json not found.')
 except PermissionError:
-    print('Permission denied.')
+    print('Permission denied to read tables.json.')
 except IOError:
-    print('Error reading file.')
+    print('Error reading file table.json.')
 
 db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), r'..\data\omri_db.accdb'))
 print(f'db_path:  {db_path}')
