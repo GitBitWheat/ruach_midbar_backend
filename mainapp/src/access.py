@@ -447,7 +447,8 @@ def update_plan(id, record_data):
             {tbl_cols["plans"]["lessons"]}={prepare_number(record_data["lessons"])}, \
             {tbl_cols["plans"]["pricePerHour"]}={prepare_number(record_data["pricePerHour"])}, \
             {tbl_cols["plans"]["overall"]}={prepare_number(record_data["overall"])}, \
-            {tbl_cols["plans"]["details"]}=\'{xstr(record_data["details"])}\' \
+            {tbl_cols["plans"]["details"]}=\'{xstr(record_data["details"])}\', \
+            {tbl_cols["plans"]["msg"]}=\'{xstr(record_data["msg"])}\' \
         WHERE {tbl_cols["plans"]["id"]}={id};')
     cursor.commit()
 
