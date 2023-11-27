@@ -24,7 +24,7 @@
         "classes": ["tvf2evcx m0h2a7mj lb5m6g5c j7l1k36l ktfrpxia nu7pwgvd p357zi0d dnb887gk gjuq5ydh i2cterl7 fhf7t426 sap93d0t gndfcl4n ajgl1lbb lniyxyh2 fooq7fky bcfko8ch"]
     },
     "image-input": {
-        "base": "//div[{0}]/input[@accept='image/*,video/mp4,video/3gpp,video/quicktime' and @type='file']",
+        "base": "//div[{0}]/input[@accept='*' and @type='file']",
         "classes": ["tvf2evcx m0h2a7mj lb5m6g5c j7l1k36l ktfrpxia nu7pwgvd p357zi0d dnb887gk gjuq5ydh i2cterl7 fhf7t426 sap93d0t gndfcl4n ajgl1lbb lniyxyh2 fooq7fky bcfko8ch"]
     },
     "send-file-button": {
