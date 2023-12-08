@@ -959,27 +959,6 @@ def delete_plan(request, planId):
 
 
 @csrf_exempt
-def update_settings(request):
-    # Return a 405 Method Not Allowed error for non-GET requests
-    if request.method != 'POST':
-        return HttpResponse(status=405)
-    
-    # Validate the JSON structure
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest('Invalid JSON')
-
-    try:
-        db.update_settings(data)
-    except Exception as err:
-        return HttpResponse(status=500, content=f'Could not update general settings.\n{err}')
-
-    return HttpResponse(status=200)
-
-
-
-@csrf_exempt
 def update_people_creds(request):
     # Return a 405 Method Not Allowed error for non-GET requests
     if request.method != 'POST':

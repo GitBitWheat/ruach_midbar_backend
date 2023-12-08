@@ -62,8 +62,6 @@ urlpatterns = [
     path('updateplan/', views.update_plan),
     path('deleteplan/<int:planId>/', views.delete_plan),
 
-    path('updatesettings/', views.update_settings),
-
     path('updatepeoplecreds/', views.update_people_creds),
     path('updateinstructorscreds/', views.update_instructors_creds),
     path('updateproposalcreds/', views.update_proposal_creds),

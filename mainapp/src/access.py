@@ -51,18 +51,6 @@ def get_all_data():
         else:
             data[tbl_english_name] = get_tbl_data(tbl_db_name, tbl_cols[tbl_english_name])
     data = uniques_data(uniques_names, data)
-
-    data['settings'] = None
-    try:
-        with open('mainapp/data/general_settings.json', 'r', encoding='utf-8') as general_settings:
-            data['settings'] = json.load(general_settings)
-    except FileNotFoundError:
-        print('File not found.')
-    except PermissionError:
-        print('Permission denied.')
-    except IOError:
-        print('Error reading file.')
-
     return data
 
 
@@ -458,7 +446,3 @@ def delete_plan(planId):
     cursor.execute(f'DELETE FROM {tbl_names["plans"]} \
         WHERE {tbl_cols["plans"]["id"]}={planId};')
     cursor.commit()
-
-def update_settings(settings):
-    with open('mainapp/data/general_settings.json', 'w', encoding='utf-8') as general_settings_file:
-        json.dump(settings, general_settings_file)
