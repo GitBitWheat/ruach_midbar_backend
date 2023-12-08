@@ -129,7 +129,8 @@ class WhatsappSender:
             button().click()
 
         def send_to_input(self, xpath, input_content, isText=False):
-            input_element = lambda: WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            input_element = lambda: WebDriverWait(self.driver, 50)\
+                .until(EC.element_to_be_selected((By.XPATH, xpath)))
             if isText:
                 input_lines = input_content.split('\n')
                 for line in input_lines:
