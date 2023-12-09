@@ -40,11 +40,58 @@ for name, element in xpaths.items():
 
 
 
+class WhatsappController:
+    MESSAGE_INPUT_XPATH = xpaths['message-input']
+    SEND_BUTTON_XPATH = xpaths['send-button']
+    ATTACH_BUTTON_XPATH = xpaths['attach-button']
+    DOCUMENT_INPUT_XPATH = xpaths['document-input']
+    IMAGE_INPUT_XPATH = xpaths['image-input']
+    SEND_FILE_BUTTON_XPATH = xpaths['send-file-button']
+    LAST_MSG_META_XPATH = xpaths['last-msg-meta']
+    CONTACT_SEARCH_INPUT_XPATH = xpaths['contact-search-input']
+    TOP_CONTACT_XPATH = xpaths['top-contact']
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def click_button(self, xpath):
+        button = lambda: WebDriverWait(self.driver, 50).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+        button().click()
+
+    def send_to_input(self, xpath, input_content, isText=False):
+        input_element = lambda: WebDriverWait(self.driver, 50)\
+            .until(EC.element_to_be_selected((By.XPATH, xpath)))
+        if isText:
+            input_lines = input_content.split('\n')
+            for line in input_lines:
+                ie = input_element()
+                for c in line:
+                    ie.send_keys(c)
+                ie.send_keys(Keys.SHIFT, '\n')
+        else:
+            input_element().send_keys(input_content)
+
+    def validate_send(self):
+        last_msg_status = lambda: WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, self.LAST_MSG_META_XPATH)))
+        try:
+            wait(lambda: last_msg_status().get_attribute('data-icon') != 'msg-time', timeout_seconds=40, expected_exceptions=Exception)
+        except TimeoutExpired:
+            return False
+        else:
+            return True
+    
+    def navigate(self, phone):
+        self.send_to_input(self.CONTACT_SEARCH_INPUT_XPATH, phone)
+        time.sleep(1)
+        self.click_button(self.TOP_CONTACT_XPATH)
+        time.sleep(0.5)
+
+
+
 class MessageTypes(IntEnum):
     TEXT = 1
     DOCUMENT = 2
     IMAGE = 3
-    COPY_IMAGE = 4
 
 class MessageStatuses(IntEnum):
     SUCCESSFUL = 1
@@ -59,6 +106,7 @@ class MessageStatuses(IntEnum):
 class WhatsappSender:
     def __init__(self, driver, messages):
         self.driver = driver
+        self.whatsapp = WhatsappController(driver)
         self.messages = [WhatsappSender.__msg_type_to_class(msg_type)(driver, content) for content, msg_type in messages]
     
     @staticmethod
@@ -69,14 +117,11 @@ class WhatsappSender:
             return WhatsappSender._DocumentMessage
         elif msg_type == MessageTypes.IMAGE:
             return WhatsappSender._ImageMessage
-        elif msg_type == MessageTypes.COPY_IMAGE:
-            return WhatsappSender._CopyImageMessage
         else:
             return None
 
-
     def send(self, phone, name):
-        self.driver.get(f'https://web.whatsapp.com/send?phone={phone}')
+        self.whatsapp.navigate(phone)
 
         try:
             WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, xpaths['chatlist-header'])))
@@ -104,7 +149,7 @@ class WhatsappSender:
 
             time.sleep(1.5)
 
-            if message.validate_send():
+            if self.whatsapp.validate_send():
                 msg_statuses.append(MessageStatuses.SUCCESSFUL)
             else:
                 msg_statuses.append(MessageStatuses.FAILED_SENDING_VALIDATION)
@@ -113,42 +158,9 @@ class WhatsappSender:
 
 
     class _Message(metaclass=ABCMeta):
-        MESSAGE_INPUT_XPATH = xpaths['message-input']
-        SEND_BUTTON_XPATH = xpaths['send-button']
-        ATTACH_BUTTON_XPATH = xpaths['attach-button']
-        DOCUMENT_INPUT_XPATH = xpaths['document-input']
-        IMAGE_INPUT_XPATH = xpaths['image-input']
-        SEND_FILE_BUTTON_XPATH = xpaths['send-file-button']
-        LAST_MSG_META_XPATH = xpaths['last-msg-meta']
-
-        def __init__(self, driver):
-            self.driver = driver
-
-        def click_button(self, xpath):
-            button = lambda: WebDriverWait(self.driver, 50).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-            button().click()
-
-        def send_to_input(self, xpath, input_content, isText=False):
-            input_element = lambda: WebDriverWait(self.driver, 50)\
-                .until(EC.element_to_be_selected((By.XPATH, xpath)))
-            if isText:
-                input_lines = input_content.split('\n')
-                for line in input_lines:
-                    ie = input_element()
-                    for c in line:
-                        ie.send_keys(c)
-                    ie.send_keys(Keys.SHIFT, '\n')
-            else:
-                input_element().send_keys(input_content)
-
-        def validate_send(self):
-            last_msg_status = lambda: WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, self.LAST_MSG_META_XPATH)))
-            try:
-                wait(lambda: last_msg_status().get_attribute('data-icon') != 'msg-time', timeout_seconds=40, expected_exceptions=Exception)
-            except TimeoutExpired:
-                return False
-            else:
-                return True
+        def __init__(self, driver, content):
+            self.whatsapp = WhatsappController(driver)
+            self.content = content
 
         @abstractclassmethod
         def send(self, _):
@@ -156,66 +168,30 @@ class WhatsappSender:
 
 
     class _TextMessage(_Message):
-        def __init__(self, driver, text):
-            super().__init__(driver)
-            self.text = text
-        
         def send(self, name):
-            self.send_to_input(self.MESSAGE_INPUT_XPATH, self.text.format(name=name), isText=True)
-            self.click_button(self.SEND_BUTTON_XPATH)
+            self.whatsapp.send_to_input(self.whatsapp.MESSAGE_INPUT_XPATH, self.content.format(name=name), isText=True)
+            time.sleep(1.5)
+            self.whatsapp.click_button(self.whatsapp.SEND_BUTTON_XPATH)
 
 
     class _DocumentMessage(_Message):
-        def __init__(self, driver, filepath):
-            super().__init__(driver)
-            self.filepath = filepath
-
         def send(self, _):
-            self.click_button(self.ATTACH_BUTTON_XPATH)
+            self.whatsapp.click_button(self.whatsapp.ATTACH_BUTTON_XPATH)
             time.sleep(1.5)
-            self.send_to_input(self.DOCUMENT_INPUT_XPATH, self.filepath)
+            self.whatsapp.send_to_input(self.whatsapp.DOCUMENT_INPUT_XPATH, self.content)
             time.sleep(1.5)
-            self.click_button(self.SEND_FILE_BUTTON_XPATH)
+            self.whatsapp.click_button(self.whatsapp.SEND_FILE_BUTTON_XPATH)
 
 
     class _ImageMessage(_Message):
-        def __init__(self, driver, filepath):
-            super().__init__(driver)
-            self.filepath = filepath
-
         def send(self, _):
-            self.click_button(self.ATTACH_BUTTON_XPATH)
+            self.whatsapp.click_button(self.whatsapp.ATTACH_BUTTON_XPATH)
             time.sleep(1.5)
-            self.send_to_input(self.IMAGE_INPUT_XPATH, self.filepath)
+            self.whatsapp.send_to_input(self.whatsapp.IMAGE_INPUT_XPATH, self.content)
             time.sleep(1.5)
-            self.click_button(self.SEND_FILE_BUTTON_XPATH)
+            self.whatsapp.click_button(self.whatsapp.SEND_FILE_BUTTON_XPATH)
 
     
-    class _CopyImageMessage(_Message):
-        def __init__(self, driver, filepath):
-            super().__init__(driver)
-            self.filepath = filepath
-
-        def copy_image_to_clipboard(self, filepath):
-            image = None #Image.open(filepath)
-            output = BytesIO()
-            image.convert("RGB").save(output, "BMP")
-            data = output.getvalue()[14:]
-            output.close()
-
-            win32clipboard.OpenClipboard()
-            win32clipboard.EmptyClipboard()
-            win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
-            win32clipboard.CloseClipboard()
-
-        def send(self, _):
-            time.sleep(1.5)
-            self.copy_image_to_clipboard(self.filepath)
-            self.send_to_input(self.MESSAGE_INPUT_XPATH, Keys.CONTROL + 'v')
-            time.sleep(1.5)
-            self.click_button(self.SEND_FILE_BUTTON_XPATH)
-
-
 
 def send_messages(messages, phones, names, school_ids, contact_ids, is_rep_lst, update_school_status, update_contact_status, success_status, fail_status):
     try:
@@ -255,14 +231,3 @@ def send_messages(messages, phones, names, school_ids, contact_ids, is_rep_lst, 
     
     driver.quit()
     return statuses_lists
-
-
-
-if __name__ == "__main__":
-    #send_messages([
-    #    (r'C:\Users\Owner\Pictures\Screenshots\Screenshot (1).png', MessageTypes.COPY_IMAGE)
-    #],
-    #['fr23', '971.543547270'],
-    #['1']*2,
-    #[None]*2, lambda: 0, None, None)
-    print(xpaths['chatlist-header'])
