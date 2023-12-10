@@ -8,9 +8,6 @@ from selenium.common.exceptions import TimeoutException, InvalidArgumentExceptio
 
 from waiting import wait, TimeoutExpired
 
-from io import BytesIO
-import win32clipboard
-
 from abc import ABCMeta, abstractclassmethod
 from enum import IntEnum
 import json
@@ -49,7 +46,6 @@ class WhatsappController:
     SEND_FILE_BUTTON_XPATH = xpaths['send-file-button']
     LAST_MSG_META_XPATH = xpaths['last-msg-meta']
     CONTACT_SEARCH_INPUT_XPATH = xpaths['contact-search-input']
-    TOP_CONTACT_XPATH = xpaths['top-contact']
 
     def __init__(self, driver):
         self.driver = driver
@@ -59,8 +55,7 @@ class WhatsappController:
         button().click()
 
     def send_to_input(self, xpath, input_content, isText=False):
-        input_element = lambda: WebDriverWait(self.driver, 50)\
-            .until(EC.element_to_be_selected((By.XPATH, xpath)))
+        input_element = lambda: WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, xpath)))
         if isText:
             input_lines = input_content.split('\n')
             for line in input_lines:
@@ -69,10 +64,14 @@ class WhatsappController:
                     ie.send_keys(c)
                 ie.send_keys(Keys.SHIFT, '\n')
         else:
-            input_element().send_keys(input_content)
+            input_element().send_keys(str(input_content))
+
+    def clear_input(self, xpath):
+        input_element = lambda: WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        input_element().clear()
 
     def validate_send(self):
-        last_msg_status = lambda: WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, self.LAST_MSG_META_XPATH)))
+        last_msg_status = lambda: WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, self.LAST_MSG_META_XPATH)))
         try:
             wait(lambda: last_msg_status().get_attribute('data-icon') != 'msg-time', timeout_seconds=40, expected_exceptions=Exception)
         except TimeoutExpired:
@@ -81,9 +80,14 @@ class WhatsappController:
             return True
     
     def navigate(self, phone):
+        if phone[0:3] == '972':
+            phone = phone[3:]
+        if phone[0] == '0':
+            phone = phone[1:]
+        phone += '\n'
         self.send_to_input(self.CONTACT_SEARCH_INPUT_XPATH, phone)
         time.sleep(1)
-        self.click_button(self.TOP_CONTACT_XPATH)
+        self.clear_input(self.CONTACT_SEARCH_INPUT_XPATH)
         time.sleep(0.5)
 
 
